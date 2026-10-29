@@ -250,6 +250,24 @@
       transition: opacity 0.15s;
     }
 
+    button.btn {
+      width: 100%;
+      border: none;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .daily-message {
+      min-height: 3.6em;
+      margin-bottom: 16px;
+    }
+
     .btn:active {
       opacity: 0.8;
     }
@@ -301,6 +319,12 @@
       <p>
         このページは、AI と一緒に作った最初のページです。これからいろいろ試して育てていく予定です。
       </p>
+    </section>
+
+    <section class="card" aria-labelledby="daily-quote">
+      <h2 id="daily-quote">💬 今日の一言</h2>
+      <p id="daily-message" class="daily-message" role="status" aria-live="polite" aria-atomic="true">ボタンを押して、今日の一言を見てみましょう。</p>
+      <button id="daily-quote-button" class="btn" type="button">今日の一言を見る</button>
     </section>
 
     <section class="card" aria-labelledby="profile">
@@ -360,5 +384,30 @@
   <footer>
     &copy; 2026 山田 太郎
   </footer>
+  <script>
+    const messages = [
+      "小さな一歩が、大きな変化につながる。",
+      "今日の挑戦が、明日の自信になる。",
+      "焦らず、自分のペースで進もう。",
+      "失敗も、新しい発見への入り口。",
+      "まずは楽しむことから始めよう。",
+      "昨日より少しだけ、できることを増やそう。",
+      "ひと休みも、前に進むための大切な時間。",
+      "好奇心を大切に、今日もひとつ試してみよう。"
+    ];
+    const messageElement = document.getElementById("daily-message");
+    const quoteButton = document.getElementById("daily-quote-button");
+    let previousIndex = -1;
+
+    quoteButton.addEventListener("click", () => {
+      // 2回目以降は直前の一言を除いた候補から選ぶ。
+      let index = Math.floor(Math.random() * (messages.length - (previousIndex === -1 ? 0 : 1)));
+      if (previousIndex !== -1 && index >= previousIndex) {
+        index += 1;
+      }
+      messageElement.textContent = messages[index];
+      previousIndex = index;
+    });
+  </script>
 </body>
 </html>
